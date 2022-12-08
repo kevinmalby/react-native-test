@@ -1,7 +1,7 @@
 platform :ios do
   desc "Builds ios app"
   lane :build do
-    gym(workspace: "./ios/FastlaneTest.xcworkspace",
+    gym(project: "./ios/FastlaneTest.xcodeproj",
       scheme: "FastlaneTest",
       export_method: "ad-hoc",
       skip_codesigning: true,
