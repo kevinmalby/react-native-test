@@ -1,6 +1,12 @@
 platform :ios do
+  desc "Install necessary gems"
+  lane :prepareBuild do
+    sh "bundle install"
+  end
+
   desc "Builds ios app"
   lane :build do
+    prepareBuild
     gym(project: "./ios/FastlaneTest.xcodeproj",
       scheme: "FastlaneTest",
       export_method: "ad-hoc",
