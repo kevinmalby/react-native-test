@@ -30,3 +30,7 @@ jobs:
       #   run: cd FastlaneTest && bundle exec fastlane ios build
       - name: Run App Store Connect API Lane
         run: cd FastlaneTest && bundle exec fastlane ios loadAscApiKey
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY: ${{ secrets.ASC_KEY }}
