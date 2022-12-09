@@ -15,14 +15,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios prepareBuild
-
-```sh
-[bundle exec] fastlane ios prepareBuild
-```
-
-Install necessary gems
-
 ### ios build
 
 ```sh
@@ -30,6 +22,43 @@ Install necessary gems
 ```
 
 Builds ios app
+
+----
+
+
+## Android
+
+### android prepareAndroid
+
+```sh
+[bundle exec] fastlane android prepareAndroid
+```
+
+Cleans android folder
+
+### android updateVersion
+
+```sh
+[bundle exec] fastlane android updateVersion
+```
+
+Updates the android version in the build.gradle file
+
+### android buildAab
+
+```sh
+[bundle exec] fastlane android buildAab
+```
+
+Builds the aab file
+
+### android buildApk
+
+```sh
+[bundle exec] fastlane android buildApk
+```
+
+Builds the apk file
 
 ----
 

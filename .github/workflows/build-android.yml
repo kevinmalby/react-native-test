@@ -1,0 +1,43 @@
+name: Build Android
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_package_name:
+        type: string
+        description: "The name of the package for the mobile app being built (e.g. com.xemelgo)"
+
+jobs:
+  build_android:
+    runs-on: ubuntu-latest
+    name: Build Android
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          cache: "npm"
+          cache-dependency-path: FastlaneTest/package-lock.json
+
+      - name: Install Node Modules
+        run: cd FastlaneTest && npm ci
+
+      - name: Make Gradlew Executable
+        run: cd x-mobile/android && chmod +x ./gradlew
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Run Build Lane
+        run: cd FastlaneTest && bundle exec fastlane android buildApk app_package_name:${{ inputs.app_package_name }}
+        env:
+          TF_API_USER: ${{ secrets.TF_API_USER }}
+          TF_API_KEY: ${{ secrets.TF_API_KEY }}
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Release APK
+          path: FastlaneTest/android/app/build/outputs/apk/release/app-release.apk

@@ -9,3 +9,31 @@ platform :ios do
     )
   end
 end
+
+platform :android do
+  desc "Cleans android folder"
+  lane :prepareAndroid do
+      gradle(task: 'clean', project_dir: './android')
+  end
+
+  desc "Updates the android version in the build.gradle file"
+  lane :updateVersion do |options|
+      newVersions = get_updated_version_android(app_version: options[:app_version], app_package_name: options[:app_package_name])
+      increment_version_name(version_name: newVersions[0], gradle_file_path: './android/app/build.gradle')
+      increment_version_code(version_code: newVersions[1], gradle_file_path: './android/app/build.gradle')
+  end
+
+  desc "Builds the aab file"
+  lane :buildAab do |options|
+      prepareAndroid
+      updateVersion(app_version: options[:app_version], app_package_name: options[:app_package_name])
+      gradle(task: 'bundle', build_type: 'Release', project_dir: './android')
+  end
+
+  desc "Builds the apk file"
+  lane :buildApk do |options|
+      prepareAndroid
+      updateVersion(app_version: options[:app_version], app_package_name: options[:app_package_name])
+      gradle(task: 'assemble', build_type: 'Release', project_dir: './android')
+  end
+end
