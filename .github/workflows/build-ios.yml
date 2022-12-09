@@ -10,26 +10,36 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.3
           bundler-cache: true
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           cache: "npm"
           cache-dependency-path: FastlaneTest/package-lock.json
+
       - name: Install Node Modules
         run: cd FastlaneTest && npm ci
-      # - name: Install Pods
-      #   run: "cd FastlaneTest/ios && pod install"
+
+      - name: Install Pods
+        run: "cd FastlaneTest/ios && pod install"
+
       - name: Install gems
         run: cd FastlaneTest && bundle install
-      # - name: Run Build Lane
-      #   run: cd FastlaneTest && bundle exec fastlane ios build
-      - name: Run App Store Connect API Lane
-        run: cd FastlaneTest && bundle exec fastlane ios loadAscApiKey
+
+      - name: Import Code-Signing Certificates
+        uses: Apple-Actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.IOS_DIST_SIGNING_KEY }}
+          p12-password: ${{ secrets.IOS_DIST_SIGNING_KEY_PASSWORD }}
+
+      - name: Build and Sign iOS App
+        run: cd FastlaneTest && bundle exec fastlane ios buildAndSign
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
