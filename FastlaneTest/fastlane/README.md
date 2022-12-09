@@ -15,6 +15,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
+### ios loadAscApiKey
+
+```sh
+[bundle exec] fastlane ios loadAscApiKey
+```
+
+Load App Store Connect APi Key info for use in other lanes
+
 ### ios build
 
 ```sh
@@ -59,6 +67,22 @@ Builds the aab file
 ```
 
 Builds the apk file
+
+### android uploadToTestFairy
+
+```sh
+[bundle exec] fastlane android uploadToTestFairy
+```
+
+Uploads the build to TestFairy
+
+### android buildAndUploadForTest
+
+```sh
+[bundle exec] fastlane android buildAndUploadForTest
+```
+
+Builds and uploads binary for test
 
 ----
 

@@ -1,4 +1,16 @@
 platform :ios do
+  desc "Load App Store Connect APi Key info for use in other lanes"
+  lane :loadAscApiKey do
+    app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_KEY"],
+      is_key_content_base64: true,
+      in_house: false
+    )
+    UI.message "Key: #{lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]}"
+  end
+
   desc "Builds ios app"
   lane :build do
     gym(workspace: "./ios/FastlaneTest.xcworkspace",
@@ -35,5 +47,16 @@ platform :android do
       prepareAndroid
       updateVersion(app_version: options[:app_version], app_package_name: options[:app_package_name])
       gradle(task: 'assemble', build_type: 'Release', project_dir: './android')
+  end
+
+  desc "Uploads the build to TestFairy"
+  lane :uploadToTestFairy do
+    testfairy(api_key: ENV["TF_API_KEY"], apk: "./android/app/build/outputs/apk/release/app-release.apk")
+  end
+
+  desc "Builds and uploads binary for test"
+  lane :buildAndUploadForTest do |options|
+    buildApk(app_version: options[:app_version], app_package_name: options[:app_package_name])
+    uploadToTestFairy
   end
 end
