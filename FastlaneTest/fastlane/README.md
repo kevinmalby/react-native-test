@@ -15,13 +15,13 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios prepareBuild
+### ios loadAscApiKey
 
 ```sh
-[bundle exec] fastlane ios prepareBuild
+[bundle exec] fastlane ios loadAscApiKey
 ```
 
-Install necessary gems
+Load App Store Connect APi Key info for use in other lanes
 
 ### ios build
 
@@ -30,6 +30,59 @@ Install necessary gems
 ```
 
 Builds ios app
+
+----
+
+
+## Android
+
+### android prepareAndroid
+
+```sh
+[bundle exec] fastlane android prepareAndroid
+```
+
+Cleans android folder
+
+### android updateVersion
+
+```sh
+[bundle exec] fastlane android updateVersion
+```
+
+Updates the android version in the build.gradle file
+
+### android buildAab
+
+```sh
+[bundle exec] fastlane android buildAab
+```
+
+Builds the aab file
+
+### android buildApk
+
+```sh
+[bundle exec] fastlane android buildApk
+```
+
+Builds the apk file
+
+### android uploadToTestFairy
+
+```sh
+[bundle exec] fastlane android uploadToTestFairy
+```
+
+Uploads the build to TestFairy
+
+### android buildAndUploadForTest
+
+```sh
+[bundle exec] fastlane android buildAndUploadForTest
+```
+
+Builds and uploads binary for test
 
 ----
 

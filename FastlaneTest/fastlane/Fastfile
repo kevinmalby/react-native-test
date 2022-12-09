@@ -1,11 +1,62 @@
 platform :ios do
+  desc "Load App Store Connect APi Key info for use in other lanes"
+  lane :loadAscApiKey do
+    app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_KEY"],
+      is_key_content_base64: true,
+      in_house: false
+    )
+    UI.message "Key: #{lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]}"
+  end
+
   desc "Builds ios app"
   lane :build do
-    gym(project: "./ios/FastlaneTest.xcodeproj",
+    gym(workspace: "./ios/FastlaneTest.xcworkspace",
       scheme: "FastlaneTest",
       export_method: "ad-hoc",
       skip_codesigning: true,
       export_team_id: "test-id"
     )
+  end
+end
+
+platform :android do
+  desc "Cleans android folder"
+  lane :prepareAndroid do
+      gradle(task: 'clean', project_dir: './android')
+  end
+
+  desc "Updates the android version in the build.gradle file"
+  lane :updateVersion do |options|
+      newVersions = get_updated_version_android(app_version: options[:app_version], app_package_name: options[:app_package_name])
+      increment_version_name(version_name: newVersions[0], gradle_file_path: './android/app/build.gradle')
+      increment_version_code(version_code: newVersions[1], gradle_file_path: './android/app/build.gradle')
+  end
+
+  desc "Builds the aab file"
+  lane :buildAab do |options|
+      prepareAndroid
+      updateVersion(app_version: options[:app_version], app_package_name: options[:app_package_name])
+      gradle(task: 'bundle', build_type: 'Release', project_dir: './android')
+  end
+
+  desc "Builds the apk file"
+  lane :buildApk do |options|
+      prepareAndroid
+      updateVersion(app_version: options[:app_version], app_package_name: options[:app_package_name])
+      gradle(task: 'assemble', build_type: 'Release', project_dir: './android')
+  end
+
+  desc "Uploads the build to TestFairy"
+  lane :uploadToTestFairy do
+    testfairy(api_key: ENV["TF_API_KEY"], apk: "./android/app/build/outputs/apk/release/app-release.apk")
+  end
+
+  desc "Builds and uploads binary for test"
+  lane :buildAndUploadForTest do |options|
+    buildApk(app_version: options[:app_version], app_package_name: options[:app_package_name])
+    uploadToTestFairy
   end
 end
