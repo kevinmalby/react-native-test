@@ -39,6 +39,7 @@ platform :ios do
     api_key = lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
     
     current_version = get_version_number(
+      xcodeproj: "./ios/FastlaneTest.xcodeproj",
       target: "FastlaneTest" # replace with your main target, required if you have more than one non-test target
     )
     latest_build_number = latest_testflight_build_number(
@@ -72,6 +73,7 @@ platform :ios do
     
     # build the app
     gym(
+      workspace: "./ios/FastlaneTest.xcworkspace",
       scheme: "FatslaneTest", # replace with name of your project’s scheme
       output_name: output_name,
       configuration: "Release",
