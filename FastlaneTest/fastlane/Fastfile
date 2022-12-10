@@ -20,8 +20,7 @@ platform :ios do
     
     cert(
         api_key: api_key,
-        keychain_path: ENV["KEYCHAIN_PATH"], # the path to the keychain where your certificates are stored
-        force: true
+        keychain_path: ENV["KEYCHAIN_PATH"] # the path to the keychain where your certificates are stored
       )
     
     # main app profile
