@@ -24,9 +24,9 @@ on:
         description: "The path to the relevant xcworkspace file"
         default: "./ios/FastlaneTest.xcworkspace"
       new_app_version:
-        type: boolean
+        type: string
         description: "[Optional] The new version for the app, if not provided most recent version will be used"
-        default: false
+        default: ""
 jobs:
   build_ios:
     runs-on: macos-latest
