@@ -6,21 +6,27 @@ on:
       app_id:
         type: string
         description: "The name of the bundle Id for the mobile app being built (e.g. com.xemelgo.x-track)"
+        default: "com.xemelgo.FastlaneTest"
       provisioning_profile:
         type: string
         description: "The name of the provisioning profile to use when signing the app"
+        default: "Kmalby Fastlane"
       xcode_project_target:
         type: string
         description: "The name of the app in the xcode project (e.g. SampleReactNativeProject)"
+        default: "FastlaneTest"
       xcode_project_path:
         type: string
         description: "The path to the relevant xcodeproj file"
+        default: "./ios/FastlaneTest.xcodeproj"
       xcode_workspace_path:
         type: string
         description: "The path to the relevant xcworkspace file"
+        default: "./ios/FastlaneTest.xcworkspace"
       new_app_version:
-        type: string
+        type: boolean
         description: "[Optional] The new version for the app, if not provided most recent version will be used"
+        default: false
 jobs:
   build_ios:
     runs-on: macos-latest
@@ -59,14 +65,7 @@ jobs:
       - name: Build and Sign iOS App
         run: |
           cd FastlaneTest
-          bundle exec fastlane ios buildSignAndUpload > 
-            app_id:${{ inputs.app_id }} >
-            provisioning_profile:${{ inputs.provisioning_profile }} > 
-            xcode_project_target:${{ inputs.provisioning_profile }} > 
-            xcode_project_path:${{ inputs.xcode_project_path }} > 
-            xcode_workspace_path:${{ inputs.xcode_workspace_path }} >
-            new_app_version:${{ inputs.new_app_version }}
-
+          bundle exec fastlane ios buildSignAndUpload app_id:${{ inputs.app_id }} provisioning_profile:${{ inputs.provisioning_profile }} xcode_project_target:${{ inputs.provisioning_profile }} xcode_project_path:${{ inputs.xcode_project_path }} xcode_workspace_path:${{ inputs.xcode_workspace_path }} new_app_version:${{ inputs.new_app_version }}
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
