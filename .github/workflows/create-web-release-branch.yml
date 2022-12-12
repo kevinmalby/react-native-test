@@ -6,11 +6,17 @@ on:
       branch_name:
         type: string
         description: "The name of the release branch, if not specified will default to release-{YYYY-mm-dd}"
+        required: true
 
 jobs:
   create_branch:
     runs-on: ubuntu-latest
     name: Create Release Branch
     steps:
-      - name: Check Branch Existence
-        run: git rev-parse --verify ${{ inputs.branch_name }}
+      - name: Create Release Branch
+        uses: peterjgrainger/action-create-branch@v2.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: ${{ inputs.branch_name }}
+          sha: "${{ github.event.pull_request.head.sha }}"

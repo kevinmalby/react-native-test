@@ -38,7 +38,7 @@ platform :ios do
 
   desc "Bump build number based on most recent TestFlight build number"
   lane :fetch_and_increment_build_number do |options|
-    UI.write "Target: #{XCODE_PROJECT_TARGET_DEFAULT}"
+    UI.message "Target: #{XCODE_PROJECT_TARGET_DEFAULT}"
 
     app_identifier = options.fetch(:app_id, APP_ID_DEFAULT)
     xcode_project_path = options.fetch(:xcode_project_path, APP_ID_DEFAULT)
