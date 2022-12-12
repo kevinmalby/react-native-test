@@ -49,6 +49,7 @@ platform :ios do
     )
     increment_build_number(
       build_number: (latest_build_number + 1),
+      xcodeproj: "./ios/FastlaneTest.xcodeproj"
     )
   end
 
@@ -65,7 +66,7 @@ platform :ios do
     update_code_signing_settings(
       use_automatic_signing: false,
       targets: ["FastlaneTest"], # specify which targets to update code signing settings for
-      code_sign_identity: "iPhone Distribution", # replace with name of code signing identity if different
+      code_sign_identity: "Apple Distribution: Xemelgo Inc (Q6VX3LF7ZM)", # replace with name of code signing identity if different
       bundle_identifier: app_identifier,
       profile_name: profile_name,
       build_configurations: ["Release"] # only toggle code signing settings for Release configurations
