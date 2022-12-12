@@ -64,6 +64,7 @@ platform :ios do
     
     # turn off automatic signing during build so correct code signing identity is guaranteed to be used
     update_code_signing_settings(
+      path: "./ios/FastlaneTest.xcodeproj",
       use_automatic_signing: false,
       targets: ["FastlaneTest"], # specify which targets to update code signing settings for
       code_sign_identity: "iPhone Distribution", # replace with name of code signing identity if different
