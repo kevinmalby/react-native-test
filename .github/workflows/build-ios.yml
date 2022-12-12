@@ -39,7 +39,7 @@ jobs:
           p12-password: ${{ secrets.IOS_DIST_SIGNING_KEY_PASSWORD }}
 
       - name: Build and Sign iOS App
-        run: cd FastlaneTest && bundle exec fastlane ios buildAndSign
+        run: cd FastlaneTest && bundle exec fastlane ios buildSignAndUpload
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
