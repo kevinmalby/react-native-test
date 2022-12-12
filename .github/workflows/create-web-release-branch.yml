@@ -1,0 +1,16 @@
+name: Create Web Release Branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        type: string
+        description: "The name of the release branch, if not specified will default to release-{YYYY-mm-dd}"
+
+jobs:
+  create_branch:
+    runs-on: ubuntu-latest
+    name: Create Release Branch
+    steps:
+      - name: Check Branch Existence
+        run: git rev-parse --verify ${{ inputs.branch_name }}
