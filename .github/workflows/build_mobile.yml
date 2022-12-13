@@ -8,7 +8,7 @@ on:
         description: "The name of the release branch, if not specified will default to release-{YYYY-mm-dd}"
       create_release_branch:
         type: boolean
-        description: If true, will create the release branch and update config to production
+        description: If checked, will create the release branch and update config to production
         default: false
       ios_app_id:
         type: string
