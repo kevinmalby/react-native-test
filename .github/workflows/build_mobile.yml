@@ -3,13 +3,13 @@ name: Build Mobile
 on:
   workflow_dispatch:
     inputs:
-      release_branch_name:
-        type: string
-        description: "The name of the release branch, if not specified will default to release-{YYYY-mm-dd}"
       create_release_branch:
         type: boolean
         description: If checked, will create the release branch and update config to production
         default: false
+      release_branch_name:
+        type: string
+        description: "The name of the release branch, if not specified will default to release-{YYYY-mm-dd}"
       ios_app_id:
         type: string
         description: "The name of the bundle Id for the mobile iOS app being built (e.g. com.xemelgo.x-track)"
