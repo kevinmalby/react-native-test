@@ -123,9 +123,11 @@ platform :ios do
   desc "Upload to TestFlight / ASC"
   lane :upload_release do
     api_key = lane_context[SharedValues::APP_STORE_CONNECT_API_KEY]
+    new_app_version = options.fetch(:new_app_version, nil)
     
     deliver(
         api_key: api_key,
+        app_version: new_app_version,
         skip_screenshots: true,
         skip_metadata: true,
         skip_app_version_update: true,
