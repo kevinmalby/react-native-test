@@ -13,13 +13,10 @@ module Fastlane
         require 'json'
 
         providedVersion = params[:app_version]
-        appPackageName = params[:app_package_name] || "com.xemelgo"
+        appPackageName = params[:app_package_name]
 
         testFairyUser = ENV['TF_API_USER']
         testFairyApiKey = ENV['TF_API_KEY']
-
-        puts testFairyUser
-        puts testFairyApiKey
 
         return getTestFairyVersionInfo(appPackageName, testFairyUser, testFairyApiKey, providedVersion)
       end
@@ -105,7 +102,7 @@ module Fastlane
       end
 
       def self.is_supported?(platform)
-        true
+        [:android].include?(platform)
       end
     end
   end
