@@ -5,6 +5,10 @@ XCODE_PROJECT_TARGET_DEFAULT = "FastlaneTest"
 XCODE_PROJECT_PATH_DEFAULT = "./ios/FastlaneTest.xcodeproj"
 XCODE_WORKSPACE_PATH_DEFAULT = "./ios/FastlaneTest.xcworkspace"
 
+before_all do
+  ENV['ITMSTRANSPORTER_FORCE_ITMS_PACKAGE_UPLOAD'] = 'true'
+end
+
 platform :ios do
   desc "Load App Store Connect APi Key info for use in other lanes"
   lane :load_asc_api_key do
