@@ -10,6 +10,8 @@ on:
     inputs:
       app_package_name:
         type: string
+      branch_name:
+        type: string
 
 jobs:
   build_android:
@@ -18,6 +20,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        if: "${{ inputs.branch_name == '' }}"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        if: "${{ inputs.branch_name != '' }}"
+        with:
+          ref: ${{ inputs.branch_name }}
 
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
