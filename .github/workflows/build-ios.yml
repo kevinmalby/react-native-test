@@ -65,8 +65,8 @@ jobs:
       - name: Install Node Modules
         run: cd FastlaneTest && npm ci
 
-      - name: Install Pods
-        run: cd FastlaneTest/ios && pod install
+      # - name: Install Pods
+      #   run: cd FastlaneTest/ios && pod install
 
       - name: Install gems
         run: cd FastlaneTest && bundle install
