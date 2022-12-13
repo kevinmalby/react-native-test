@@ -9,7 +9,7 @@ on:
         default: "com.xemelgo.FastlaneTest"
       provisioning_profile:
         type: string
-        description: "The name of the provisioning profile to use when signing the app"
+        description: "The name of the provisioning profile to use when signing the app. If your profile name has spaces in it, you must put quotes around the value you enter"
         default: '"Kmalby Fastlane"'
       xcode_project_target:
         type: string
@@ -74,8 +74,8 @@ jobs:
       - name: Install Node Modules
         run: cd FastlaneTest && npm ci
 
-      # - name: Install Pods
-      #   run: cd FastlaneTest/ios && pod install
+      - name: Install Pods
+        run: cd FastlaneTest/ios && pod install
 
       - name: Install gems
         run: cd FastlaneTest && bundle install
