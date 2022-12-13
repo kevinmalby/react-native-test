@@ -20,3 +20,17 @@ jobs:
         with:
           branch: ${{ inputs.branch_name }}
           sha: "${{ github.event.pull_request.head.sha }}"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.branch_name }}
+
+      - name: Copy Production Config
+        run: cat ./production-config.json > ./FastlaneTest/test-config.json
+
+      - name: Commit Production Config Changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Updated config to use production details"
+          add: "*.json"
