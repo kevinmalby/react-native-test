@@ -65,6 +65,7 @@ platform :ios do
     )
 
     if (new_app_version)
+      UI.message "New App Version: #{new_app_version}"
       increment_version_number(
         version_number: new_app_version,
         xcodeproj: xcode_project_path
