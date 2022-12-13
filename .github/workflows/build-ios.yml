@@ -27,6 +27,21 @@ on:
         type: string
         description: "[Optional] The new version for the app, if not provided most recent version will be used"
         default: ""
+  workflow_call:
+    inputs:
+      app_id:
+        type: string
+      provisioning_profile:
+        type: string
+      xcode_project_target:
+        type: string
+      xcode_project_path:
+        type: string
+      xcode_workspace_path:
+        type: string
+      new_app_version:
+        type: string
+
 jobs:
   build_ios:
     runs-on: macos-latest
@@ -65,7 +80,7 @@ jobs:
       - name: Build and Sign iOS App
         run: |
           cd FastlaneTest
-          bundle exec fastlane ios buildSignAndUpload app_id:${{ inputs.app_id }} provisioning_profile:${{ inputs.provisioning_profile }} xcode_project_target:${{ inputs.provisioning_profile }} xcode_project_path:${{ inputs.xcode_project_path }} xcode_workspace_path:${{ inputs.xcode_workspace_path }} new_app_version:${{ inputs.new_app_version }}
+          bundle exec fastlane ios buildSignAndUpload app_id:${{ inputs.app_id }} provisioning_profile:${{ inputs.provisioning_profile }} xcode_project_target:${{ inputs.xcode_project_target }} xcode_project_path:${{ inputs.xcode_project_path }} xcode_workspace_path:${{ inputs.xcode_workspace_path }} new_app_version:${{ inputs.new_app_version }}
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}

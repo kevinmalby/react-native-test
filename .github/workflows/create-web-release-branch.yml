@@ -1,4 +1,4 @@
-name: Create Web Release Branch
+name: Create Client Release Branch
 
 on:
   workflow_dispatch:

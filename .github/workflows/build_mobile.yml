@@ -1,0 +1,51 @@
+name: Build mobile
+
+on:
+  workflow_dispatch:
+    inputs:
+      ios_app_id:
+        type: string
+        description: "The name of the bundle Id for the mobile iOS app being built (e.g. com.xemelgo.x-track)"
+        default: "com.xemelgo.FastlaneTest"
+      ios_provisioning_profile:
+        type: string
+        description: "The name of the provisioning profile to use when signing the iOS app"
+        default: "Kmalby Fastlane"
+      ios_xcode_project_target:
+        type: string
+        description: "The name of the iOS app in the xcode project (e.g. SampleReactNativeProject)"
+        default: "FastlaneTest"
+      ios_xcode_project_path:
+        type: string
+        description: "The path to the relevant xcodeproj file"
+        default: "./ios/FastlaneTest.xcodeproj"
+      ios_xcode_workspace_path:
+        type: string
+        description: "The path to the relevant xcworkspace file"
+        default: "./ios/FastlaneTest.xcworkspace"
+      ios_new_app_version:
+        type: string
+        description: "[Optional] The new version for the iOS app, if not provided most recent version will be used"
+        default: ""
+      android_app_package_name:
+        type: string
+        description: "The name of the package for the mobile Android app being built (e.g. com.xemelgo)"
+        default: "com.fastlanetest"
+
+jobs:
+  build-android:
+    uses: ./.github/workflows/build-android.yml
+    secrets: inherit
+    with:
+      app_package_name: ${{ inputs.android_app_package_name }}
+
+  build-ios:
+    uses: ./.github/workflows/build-ios.yml
+    secrets: inherit
+    with:
+      app_id: ${{ inputs.ios_app_id }}
+      provisioning_profile: ${{ inputs.ios_provisioning_profile }}
+      xcode_project_target: ${{ inputs.ios_xcode_project_target }}
+      xcode_project_path: ${{ inputs.ios_xcode_project_path }}
+      xcode_workspace_path: ${{ inputs.ios_xcode_workspace_path }}
+      new_app_version: ${{ inputs.ios_new_app_version }}

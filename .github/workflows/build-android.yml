@@ -6,6 +6,10 @@ on:
       app_package_name:
         type: string
         description: "The name of the package for the mobile app being built (e.g. com.xemelgo)"
+  workflow_call:
+    inputs:
+      app_package_name:
+        type: string
 
 jobs:
   build_android:
