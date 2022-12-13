@@ -53,7 +53,7 @@ jobs:
         run: cd FastlaneTest && bundle install
 
       - name: Run Build Lane
-        run: cd FastlaneTest && bundle exec fastlane android buildApk app_package_name:${{ inputs.app_package_name }}
+        run: cd FastlaneTest && bundle exec fastlane android buildAndUploadForTest app_package_name:${{ inputs.app_package_name }}
         env:
           TF_API_USER: ${{ secrets.TF_API_USER }}
           TF_API_KEY: ${{ secrets.TF_API_KEY }}
