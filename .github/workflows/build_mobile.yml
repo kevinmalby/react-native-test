@@ -1,4 +1,4 @@
-name: Build mobile
+name: Build Mobile
 
 on:
   workflow_dispatch:
