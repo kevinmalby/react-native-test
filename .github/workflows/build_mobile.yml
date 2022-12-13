@@ -20,8 +20,8 @@ on:
         default: "com.xemelgo.FastlaneTest"
       ios_provisioning_profile:
         type: string
-        description: "The name of the provisioning profile to use when signing the iOS app"
-        default: "Kmalby Fastlane"
+        description: "The name of the provisioning profile to use when signing the iOS app. If your profile name has spaces in it, you must put quotes around the value you enter"
+        default: '"Kmalby Fastlane"'
       ios_xcode_project_target:
         type: string
         description: "The name of the iOS app in the xcode project (e.g. SampleReactNativeProject)"

@@ -59,15 +59,21 @@ platform :ios do
       app_identifier: app_identifier
     )
 
-    increment_build_number(
-      build_number: (latest_build_number + 1),
-      xcodeproj: xcode_project_path
-    )
-
     if (new_app_version && new_app_version != "")
       UI.message "New App Version: #{new_app_version}"
-      increment_version_number(
+      increment_version_number_in_xcodeproj(
         version_number: new_app_version,
+        xcodeproj: xcode_project_path
+      )
+
+      # Resetting the build number to 1 because the version has changed
+      increment_build_number(
+        build_number: 1,
+        xcodeproj: xcode_project_path
+      )
+    else
+      increment_build_number(
+        build_number: (latest_build_number + 1),
         xcodeproj: xcode_project_path
       )
     end
