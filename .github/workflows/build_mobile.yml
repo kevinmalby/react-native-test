@@ -1,0 +1,76 @@
+name: Build Mobile
+
+on:
+  workflow_dispatch:
+    inputs:
+      create_release_branch:
+        type: boolean
+        description: If checked, will create the release branch and update config to production
+        default: false
+      release_branch_name:
+        type: string
+        description: "The name of the release branch, if not specified will default to release-{YYYY-mm-dd}"
+      delete_existing_release_branch:
+        type: boolean
+        description: "If checked, will delete the existing release branch with the provided name"
+        default: false
+      ios_app_id:
+        type: string
+        description: "The name of the bundle Id for the mobile iOS app being built (e.g. com.xemelgo.x-track)"
+        default: "com.xemelgo.FastlaneTest"
+      ios_provisioning_profile:
+        type: string
+        description: "The name of the provisioning profile to use when signing the iOS app. If your profile name has spaces in it, you must put quotes around the value you enter"
+        default: '"Kmalby Fastlane"'
+      ios_xcode_project_target:
+        type: string
+        description: "The name of the iOS app in the xcode project (e.g. SampleReactNativeProject)"
+        default: "FastlaneTest"
+      ios_xcode_project_path:
+        type: string
+        description: "The path to the relevant xcodeproj file"
+        default: "./ios/FastlaneTest.xcodeproj"
+      ios_xcode_workspace_path:
+        type: string
+        description: "The path to the relevant xcworkspace file"
+        default: "./ios/FastlaneTest.xcworkspace"
+      ios_new_app_version:
+        type: string
+        description: "[Optional] The new version for the iOS app, if not provided most recent version will be used"
+        default: ""
+      android_app_package_name:
+        type: string
+        description: "The name of the package for the mobile Android app being built (e.g. com.xemelgo)"
+        default: "com.fastlanetest"
+
+jobs:
+  create-release-branch:
+    if: "${{ inputs.create_release_branch == true }}"
+    uses: ./.github/workflows/create-client-release-branch.yml
+    secrets: inherit
+    with:
+      branch_name: ${{ inputs.release_branch_name }}
+      delete_existing_branch: ${{ inputs.delete_existing_release_branch }}
+
+  build-android:
+    needs: create-release-branch
+    if: always()
+    uses: ./.github/workflows/build-android.yml
+    secrets: inherit
+    with:
+      app_package_name: ${{ inputs.android_app_package_name }}
+      branch_name: ${{ inputs.release_branch_name }}
+
+  build-ios:
+    needs: create-release-branch
+    if: always()
+    uses: ./.github/workflows/build-ios.yml
+    secrets: inherit
+    with:
+      app_id: ${{ inputs.ios_app_id }}
+      provisioning_profile: ${{ inputs.ios_provisioning_profile }}
+      xcode_project_target: ${{ inputs.ios_xcode_project_target }}
+      xcode_project_path: ${{ inputs.ios_xcode_project_path }}
+      xcode_workspace_path: ${{ inputs.ios_xcode_workspace_path }}
+      new_app_version: ${{ inputs.ios_new_app_version }}
+      branch_name: ${{ inputs.release_branch_name }}

@@ -6,6 +6,12 @@ on:
       app_package_name:
         type: string
         description: "The name of the package for the mobile app being built (e.g. com.xemelgo)"
+  workflow_call:
+    inputs:
+      app_package_name:
+        type: string
+      branch_name:
+        type: string
 
 jobs:
   build_android:
@@ -14,6 +20,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        if: "${{ inputs.branch_name == '' }}"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        if: "${{ inputs.branch_name != '' }}"
+        with:
+          ref: ${{ inputs.branch_name }}
 
       - name: Set up ruby env
         uses: ruby/setup-ruby@v1
@@ -40,7 +53,7 @@ jobs:
         run: cd FastlaneTest && bundle install
 
       - name: Run Build Lane
-        run: cd FastlaneTest && bundle exec fastlane android buildApk app_package_name:${{ inputs.app_package_name }}
+        run: cd FastlaneTest && bundle exec fastlane android buildAndUploadForTest app_package_name:${{ inputs.app_package_name }}
         env:
           TF_API_USER: ${{ secrets.TF_API_USER }}
           TF_API_KEY: ${{ secrets.TF_API_KEY }}
