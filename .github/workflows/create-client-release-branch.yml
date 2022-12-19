@@ -23,19 +23,23 @@ jobs:
     runs-on: ubuntu-latest
     name: Create Release Branch
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       - name: Delete Existing Release Branch
         uses: dawidd6/action-delete-branch@v3
         if: "${{ inputs.delete_existing_branch }} == true"
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: ${{ inputs.branch_name }}
+          branches: ${{ inputs.branch_name || format('release-[0]', steps.date.outputs.date) }}
 
       - name: Create Release Branch
         uses: peterjgrainger/action-create-branch@v2.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: ${{ inputs.branch_name }}
+          branch: ${{ inputs.branch_name || format('release-[0]', steps.date.outputs.date) }}
           sha: "${{ github.event.pull_request.head.sha }}"
 
       - name: Checkout
