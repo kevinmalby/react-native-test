@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: ${{ inputs.branch_name || steps.branch_default.outputs.date }}
+          branch: ${{ inputs.branch_name || format('release-{0}', steps.branch_default.outputs.date) }}
           sha: "${{ github.event.pull_request.head.sha }}"
 
       - name: Checkout
