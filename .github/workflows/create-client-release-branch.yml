@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Get Branch Name Default
         id: branch_default
-        run: echo "::set-output name=release-date::$(date +'%Y-%m-%d')"
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       - name: Delete Existing Release Branch
         uses: dawidd6/action-delete-branch@v3
