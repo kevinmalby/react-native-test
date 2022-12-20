@@ -35,7 +35,7 @@ jobs:
         if: "${{ inputs.delete_existing_branch }} == true"
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: ${{ inputs.branch_name || steps.branch_default.outputs.date }}
+          branches: ${{ inputs.branch_name || format('release-{0}', steps.branch_default.outputs.date) }}
 
       - name: Create Release Branch
         uses: peterjgrainger/action-create-branch@v2.2.0
