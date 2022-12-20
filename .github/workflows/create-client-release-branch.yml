@@ -38,6 +38,7 @@ jobs:
       - name: Delete Existing Release Branch
         uses: dawidd6/action-delete-branch@v3
         if: "${{ inputs.delete_existing_branch }} == true"
+        continue-on-error: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branches: ${{ inputs.branch_name || format('release-{0}', steps.branch_default.outputs.date) }}
