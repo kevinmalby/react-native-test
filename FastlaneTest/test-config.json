@@ -1,5 +1,4 @@
 {
-  "property": 3,
-  "otherProperty": "prod",
-  "stuff": "things"
+  "property": 1,
+  "otherProperty": "thing"
 }
