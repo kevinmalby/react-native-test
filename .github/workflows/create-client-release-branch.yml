@@ -17,6 +17,9 @@ on:
         type: string
       delete_existing_branch:
         type: boolean
+  push:
+    branches:
+      - main
 
 jobs:
   create_branch:
@@ -32,14 +35,14 @@ jobs:
         if: "${{ inputs.delete_existing_branch }} == true"
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: ${{ inputs.branch_name  }}
+          branches: ${{ inputs.branch_name || format('release-[0]', steps.date.outputs.date) }}
 
       - name: Create Release Branch
         uses: peterjgrainger/action-create-branch@v2.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: ${{ inputs.branch_name  }}
+          branch: ${{ inputs.branch_name || format('release-[0]', steps.date.outputs.date) }}
           sha: "${{ github.event.pull_request.head.sha }}"
 
       - name: Checkout
