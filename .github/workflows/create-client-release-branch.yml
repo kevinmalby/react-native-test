@@ -54,7 +54,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: ${{ inputs.branch_name }}
+          ref: ${{ inputs.branch_name || format('release-{0}', steps.branch_default.outputs.date) }}
 
       - name: Copy Production Config
         run: cat ./production-config.json > ./FastlaneTest/test-config.json
