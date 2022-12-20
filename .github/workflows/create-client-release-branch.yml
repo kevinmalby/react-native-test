@@ -26,6 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Create Release Branch
     steps:
+      uses: szenius/set-timezone@v1.0
+      with:
+        timezoneLinux: "America/Los_Angeles"
+
       - name: Get Branch Name Default
         id: branch_default
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
